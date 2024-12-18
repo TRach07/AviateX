@@ -32,4 +32,25 @@ class DataStorage(countriesFile: String, airportsFile: String, runwaysFile: Stri
       }
     }
   }
+
+  def getCountriesWithHighestAndLowestAirports(): (List[(Country, Int)], List[(Country, Int)]) = {
+    val airportCounts = airports.groupBy(_.countryCode).mapValues(_.size).toList
+    val highest = airportCounts.sortBy(-_._2).take(10)
+    val lowest = airportCounts.sortBy(_._2).take(10)
+    val countriesWithCounts = highest.map { case (code, count) => (countries.find(_.code == code).get, count) }
+    val lowestCountriesWithCounts = lowest.map { case (code, count) => (countries.find(_.code == code).get, count) }
+    (countriesWithCounts, lowestCountriesWithCounts)
+  }
+
+  def runwayTypesPerCountry(): Map[String, List[String]] = {
+    val runwaysPerCountry = airports.map { airport =>
+      val country = countries.find(_.code == airport.countryCode).map(_.name).getOrElse("")
+      (country, runways.filter(_.airportId == airport.id).map(_.surface).distinct)
+    }
+    runwaysPerCountry.groupBy(_._1).mapValues(_.flatMap(_._2).distinct).toMap
+  }
+
+  def commonRunwayLatitudes(): List[String] = {
+    runways.flatMap(r => r.leIdent).groupBy(identity).mapValues(_.size).toList.sortBy(-_._2).take(10).map(_._1)
+  }
 }

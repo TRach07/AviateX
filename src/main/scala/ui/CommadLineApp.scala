@@ -23,7 +23,7 @@ object CommandLineApp {
         queryEngine.queryAirports(input)
 
       case "2" =>
-        println("Encoure de traitement:")
+        queryEngine.displayReports()
 
       case _ =>
         println("Option invalide.")
