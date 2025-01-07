@@ -24,7 +24,7 @@ The following reports are available:
 1. Clone the repository:
    ```bash
    git clone https://github.com/TRach07/project_scala_aviation.git
-   cd https://github.com/TRach07/project_scala_aviation.git
+   cd <repository-folder>
    ```
 2. View the commit log and ensure you're at the correct commit:
    ```bash
